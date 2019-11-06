@@ -1,3 +1,4 @@
+{-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeSynonymInstances #-}
@@ -30,14 +31,11 @@ type MaybeWorkerPerson = RecordOf Maybe WPFields
 --data instance AgeFieldToMaybe a = a -- 右辺が型パラメタだとダメ
 
 class AgeFieldToMaybe a where
-  type Hoge (a :: *)
-  type Hoge a = a
+  type Hoge (a :: Assoc Symbol *)
+  type Hoge a = TargetOf a
 
-instance AgeFieldToMaybe Int where 
-  type Hoge Int = Int
-
---instance AgeFieldToMaybe ("age" :> Int) where 
---  type Hoge ("age" :> Int) = ("age" :> Maybe Int) 
+instance AgeFieldToMaybe ("age" :> Int) where 
+  type Hoge ("age" :> Int) = Maybe Int
 
 
 
